@@ -1,5 +1,6 @@
 package com.taskmanagement.domain.task;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.taskmanagement.domain.project.Project;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -28,6 +29,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id", nullable = false)
     private Project project;
@@ -62,6 +64,7 @@ public class Task {
     @Column(name = "status", nullable = false, length = 32)
     private String status = "planned";
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_task_id")
     private Task parentTask;
