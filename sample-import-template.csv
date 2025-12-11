@@ -1,0 +1,7 @@
+task_code,name,assignee,start_date,end_date,progress,status,parent_task_code,is_milestone,predecessor_task_codes,dependency_type,notes
+TASK-001,Project Planning,John Doe,2025-01-01,2025-01-15,0,planned,,,,,Initial planning phase
+TASK-002,Requirements Gathering,Jane Smith,2025-01-16,2025-01-30,0,planned,,,,,"Gather all requirements from stakeholders"
+TASK-003,Design Phase,Bob Johnson,2025-02-01,2025-02-28,0,planned,,false,TASK-002,FS,Create system design
+TASK-004,Implementation,Alice Brown,2025-03-01,2025-04-30,0,planned,,false,TASK-003,FS,Code implementation
+TASK-005,Testing,Charlie Wilson,2025-05-01,2025-05-31,0,planned,,false,TASK-004,FS,QA testing
+TASK-006,Release Milestone,Product Manager,2025-06-01,2025-06-01,0,planned,,true,TASK-005,FS,Production release
