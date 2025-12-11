@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { projectsApi } from '@/lib/api';
-import { Project } from '@/lib/types';
+import { Project, Task } from '@/lib/types';
 import GanttChart from '@/components/gantt/GanttChart';
 import GanttToolbar from '@/components/gantt/GanttToolbar';
+import TaskCreateDialog from '@/components/tasks/TaskCreateDialog';
 
 export default function ProjectGanttPage() {
   const params = useParams();
@@ -15,6 +16,8 @@ export default function ProjectGanttPage() {
   const [project, setProject] = useState<Project | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [ganttKey, setGanttKey] = useState(0);
 
   useEffect(() => {
     if (projectId) {
@@ -46,8 +49,13 @@ export default function ProjectGanttPage() {
   };
 
   const handleAddTask = () => {
-    console.log('Add task clicked');
-    // TODO: Open task creation dialog
+    setIsCreateDialogOpen(true);
+  };
+
+  const handleTaskCreated = (task: Task) => {
+    console.log('Task created:', task);
+    // Force Gantt chart to reload by changing its key
+    setGanttKey(prev => prev + 1);
   };
 
   if (loading) {
@@ -113,9 +121,17 @@ export default function ProjectGanttPage() {
             onFilterChange={handleFilterChange}
             onAddTask={handleAddTask}
           />
-          <GanttChart projectId={projectId} />
+          <GanttChart key={ganttKey} projectId={projectId} />
         </div>
       </div>
+
+      {/* Task Create Dialog */}
+      <TaskCreateDialog
+        projectId={projectId}
+        isOpen={isCreateDialogOpen}
+        onClose={() => setIsCreateDialogOpen(false)}
+        onTaskCreated={handleTaskCreated}
+      />
     </div>
   );
 }
